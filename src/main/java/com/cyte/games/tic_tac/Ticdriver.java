@@ -17,8 +17,8 @@ public class Ticdriver {
 	 */
 	public static void main(String[] args) throws IOException {
 		Game tictac = new Game(3);
-		tictac.initGame();
-		tictac.StartGame();
+		
+		//tictac.StartGame();
 
 	}
 

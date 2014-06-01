@@ -1,51 +1,50 @@
 package com.cyte.games.tic_tac;
 
-import java.io.IOException;
 
 public class Game {
 	
 	private int dim;
-	private Player PlayerX;
-	private Player playerO;
-	private Grid grid; //"---XOX---"
+	private Row[] rows;
+	
 	
 	public Game(int dim) {
 		super();
 		this.dim = dim;
-		this.grid = new Grid(dim);
-		this.playerO = new HumanPlayer("O");
-		this.PlayerX = new BotPlayer("X");
-	}
-	
-	
-	public void initGame(){
-		this.grid.init();
-		this.grid.draw();
-	}
-
-	public void StartGame() throws IOException{
-		Player p = PlayerX;
-		while(!winningMove()){
-			p = (p == PlayerX)? playerO:PlayerX;
-			p.play(grid);
-			this.grid.draw();
+		this.rows = new Row[dim];
+		for (int i = 0; i < rows.length; i++) {
+			rows[i] = new Row(dim);
 		}
+		
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		for (Row row : rows) {
+			buf.append(row.toString());
+			//buf.append("\n");
+		}
+		return buf.toString();
 	}
 
-	private boolean winningMove() {
-		if(this.grid.horizontalRowWin())
-			return true;
-		if(this.grid.verticalRowWin())
-			return true;
-		if(this.grid.diagonalRowWin())
-			return true;
+	public boolean mark(String mark, Cell cell) {
+		return rows[cell.getRow()].mark(mark,cell.getCol());
+	}
+
+	public boolean checkWinningMove() {
+		// TODO Auto-generated method stub
+		return checkRows();
+	}
+
+	private boolean checkRows() {
+		for (int i = 0; i < rows.length; i++) {
+			if(rows[i].isWinner() == true)
+				return true;
+		}
 		return false;
 	}
 
-
-	public Grid getGrid() {
-		return this.grid;
-	}
+	
 	
 	
 
